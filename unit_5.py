@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Read the exchange rate data
-exchange_rate = pd.read_csv('../python/dataset.csv', index_col='Date')
+exchange_rate = pd.read_csv('dataset.csv', index_col='Date')
 
 # Add a 'US' column with a constant value of 1 to represent the USD exchange rate
 exchange_rate['US'] = 1.0
