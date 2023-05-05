@@ -18,6 +18,7 @@ start_date = '1-1-2004'
 end_date = '30-12-2022'
 df = df.loc[(df.index >= start_date) & (df.index <= end_date)]
 
+# drop ข้อมูลที่เป็น null
 df.dropna(inplace=True)
 
 # ฟังก์ชั่นสำหรับวาดกราฟและคำนวณค่าถดถอย
