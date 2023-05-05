@@ -1,35 +1,25 @@
 import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-from scipy import stats
-# อ่านข้อมูลจาก CSV
-# สุ่มเลือก 5 ประเทศ
 
-selected_currencies = ['IRR=X', 'THB=X', 'YER=X', 'JPY=X', 'PKR=X']
-# อ่านข้อมูลจาก CSV
-exchange_rates = pd.read_csv('dataset.csv')
+df = pd.read_csv('dataset.csv')
+df['Group 1'] = df[['JPY=X', 'THB=X', 'EUR=X', 'LKR=X', 'IQD=X']].mean(axis=1)
+df['Date'] = pd.to_datetime(df['Date'])
 
-# สุ่มเลือก 5 ประเทศ
-countries = np.random.choice(selected_currencies.unique(), 5, replace=False)
+df['Group 1'] = df[['JPY=X']].mean(axis=1)
+df['Group 2'] = df[['THB=X']].mean(axis=1)
+df['Group 3'] = df[['EUR=X']].mean(axis=1)
+df['Group 4'] = df[['LKR=X']].mean(axis=1)
+df['Group 5'] = df[['IQD=X']].mean(axis=1)
 
-# สร้าง DataFrame ที่เลือกเฉพาะประเทศที่สุ่มมา
-selected_exchange_rates = exchange_rates[selected_currencies.isin(selected_currencies)]
+mean_group1 = df['Group 1'].mean()
+mean_group2 = df['Group 2'].mean()
+mean_group3 = df['Group 3'].mean()
+mean_group4 = df['Group 4'].mean()
+mean_group5 = df['Group 5'].mean()
 
-# คำนวณค่าเฉลี่ยและส่วนเบี่ยงเบนมาตรฐานของแต่ละประเทศ
-mean_rates = selected_exchange_rates.groupby('Date').mean()['Rate']
-std_rates = selected_exchange_rates.groupby('Date').std()['Rate']
+print('นักเศรษฐศาสตร์ต้องการศึกษาการแจกแจงค่าสัดส่วนตัวอย่างของอัตราแลกเปลี่ยนดอลลาร์ระหว่างประเทศในเอเชีย ข้อมูลประกอบด้วย 18 ประเทศในเอเชีย ตั้งแต่วันที่ 1 มกราคม 2010 ถึง 31 ธันวาคม 2010 สุ่มเลือกห้าประเทศจาก dataset และคำนวณ z-score ของอัตราแลกเปลี่ยนดอลลาร์ในแต่ละวัน จากนั้นสร้างการแจกแจงของค่าสัดส่วนตัวอย่าง จงหาความน่าจะเป็นค่าเฉลี่ยของอัตราแลกเปลี่ยนดอลลาร์ในแต่ละประเทศ 5 ประเทศที่สุ่มมา')
 
-# คำนวณ z-score ของแต่ละวัน
-selected_exchange_rates['z-score'] = (selected_exchange_rates['Rate'] - selected_exchange_rates.groupby('Country')['Rate'].transform('mean')) / selected_exchange_rates.groupby('Country')['Rate'].transform('std')
-
-# สร้างการแจกแจงของค่าสัดส่วนตัวอย่าง
-for country in selected_currencies:
-    sns.histplot(data=selected_exchange_rates[selected_exchange_rates['Country'] == country], x='z-score', bins=30, kde=True, label=country)
-
-plt.legend()
-plt.show()
-
-# คำนวณค่าเฉลี่ยของอัตราแลกเปลี่ยนดอลลาร์ในแต่ละประเทศ
-for country in selected_currencies:
-    print(f'Mean exchange rate for {country}: {mean_rates[country]:.4f}')
+print("Mean exchange rate for Japan:",mean_group1)
+print("Mean exchange rate for Thailand:",mean_group2)
+print("Mean exchange rate for Euro:",mean_group3)
+print("Mean exchange rate for Sri Lanka:",mean_group4)
+print("Mean exchange rate for Republic of Iraq:",mean_group5)
